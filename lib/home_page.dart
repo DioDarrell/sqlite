@@ -15,6 +15,12 @@ class HomeState extends State<Home> {
   int count = 0;
   List<Item> itemList;
 
+@override
+void initState(){
+  super.initState();
+  updateListView();
+}
+
   @override
   Widget build(BuildContext context) {
     if (itemList == null) {
@@ -81,7 +87,6 @@ class HomeState extends State<Home> {
               children: [
                 Text('Price: ' + this.itemList[index].price.toString()),
                 Text('Stock: ' + this.itemList[index].stock.toString()),
-                Text('Kode: ' + this.itemList[index].kode),
               ],
             ),
             trailing: GestureDetector(
