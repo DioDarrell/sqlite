@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqlite/item_customer.dart';
 import 'item.dart';
 
 class DbHelper {
@@ -32,6 +33,16 @@ class DbHelper {
     kode TEXT
     )
     ''');
+
+    await db.execute('''
+    CREATE TABLE customer (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    kode TEXT,
+    alamat TEXT,
+    jumlah INTEGER
+    )
+    ''');
   }
 
   //select databases
@@ -48,6 +59,11 @@ class DbHelper {
     return count;
   }
 
+Future<int> insertC(ItemCustomer object) async {
+    Database db = await this.initDb();
+    int count = await db.insert('item', object.toMap());
+    return count;
+  }
 //update databases
   Future<int> update(Item object) async {
     Database db = await this.initDb();
@@ -56,6 +72,12 @@ class DbHelper {
     return count;
   }
 
+Future<int> updateC(ItemCustomer object) async {
+    Database db = await this.initDb();
+    int count = await db
+        .update('item', object.toMap(), where: 'id=?', whereArgs: [object.id]);
+    return count;
+  }
 //delete databases
   Future<int> delete(int id) async {
     Database db = await this.initDb();
@@ -69,6 +91,16 @@ class DbHelper {
     List<Item> itemList = List<Item>();
     for (int i = 0; i < count; i++) {
       itemList.add(Item.fromMap(itemMapList[i]));
+    }
+    return itemList;
+  }
+
+Future<List<ItemCustomer>> getItemCustomList() async {
+    var itemMapList = await select();
+    int count = itemMapList.length;
+    List<ItemCustomer> itemList = List<ItemCustomer>();
+    for (int i = 0; i < count; i++) {
+      itemList.add(ItemCustomer.fromMap(itemMapList[i]));
     }
     return itemList;
   }
