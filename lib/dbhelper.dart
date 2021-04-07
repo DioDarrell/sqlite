@@ -16,12 +16,16 @@ class DbHelper {
     String path = directory.path + 'item.db';
 
     //create, read databases
-    var itemDatabase = openDatabase(path, version: 4, onCreate: _createDb);
+    var itemDatabase = openDatabase(path, version: 4, onCreate: _createDb, onUpgrade: _onUpgrade);
 
     //mengembalikan nilai object sebagai hasil dari fungsinya
     return itemDatabase;
   }
-
+void _onUpgrade(Database db, int oldVersion, int newVersion) {
+    if (oldVersion < newVersion) {
+      // db.execute(""); // SQL Query
+    }
+  }
   //buat tabel baru dengan nama item
   void _createDb(Database db, int version) async {
     await db.execute('''
@@ -52,6 +56,11 @@ class DbHelper {
     return mapList;
   }
 
+Future<List<Map<String, dynamic>>> selectCustomer() async {
+    Database db = await this.initDb();
+    var mapList = await db.query('customer', orderBy: 'name');
+    return mapList;
+  }
   //create databases
   Future<int> insert(Item object) async {
     Database db = await this.initDb();
@@ -61,7 +70,7 @@ class DbHelper {
 
 Future<int> insertC(ItemCustomer object) async {
     Database db = await this.initDb();
-    int count = await db.insert('item', object.toMap());
+    int count = await db.insert('customer', object.toMap());
     return count;
   }
 //update databases
@@ -75,7 +84,7 @@ Future<int> insertC(ItemCustomer object) async {
 Future<int> updateC(ItemCustomer object) async {
     Database db = await this.initDb();
     int count = await db
-        .update('item', object.toMap(), where: 'id=?', whereArgs: [object.id]);
+        .update('customer', object.toMap(), where: 'id=?', whereArgs: [object.id]);
     return count;
   }
 //delete databases
@@ -96,7 +105,7 @@ Future<int> updateC(ItemCustomer object) async {
   }
 
 Future<List<ItemCustomer>> getItemCustomList() async {
-    var itemMapList = await select();
+    var itemMapList = await selectCustomer();
     int count = itemMapList.length;
     List<ItemCustomer> itemList = List<ItemCustomer>();
     for (int i = 0; i < count; i++) {
