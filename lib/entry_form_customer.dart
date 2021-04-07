@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:sqlite/item_customer.dart';
 
 class EntryForm extends StatefulWidget {
@@ -61,7 +60,7 @@ class EntryFormState extends State<EntryForm> {
                   controller: kodeController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Kode Barang',
+                    labelText: 'Kode Kaos Pesanan',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),

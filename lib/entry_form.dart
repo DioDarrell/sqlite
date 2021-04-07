@@ -43,7 +43,24 @@ class EntryFormState extends State<EntryForm> {
                   controller: nameController,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    labelText: 'Nama Barang',
+                    labelText: 'Name',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                  ),
+                  onChanged: (value) {
+//
+                  },
+                ),
+              ),
+              //kode
+              Padding(
+                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+                child: TextField(
+                  controller: kodeController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Kode Barang',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
@@ -87,23 +104,7 @@ class EntryFormState extends State<EntryForm> {
                   },
                 ),
               ),
-//kode
-              Padding(
-                padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                child: TextField(
-                  controller: kodeController,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    labelText: 'Kode Barang',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5.0),
-                    ),
-                  ),
-                  onChanged: (value) {
-//
-                  },
-                ),
-              ),
+
 // tombol button
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),

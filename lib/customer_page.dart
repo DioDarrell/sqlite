@@ -5,12 +5,12 @@ import 'package:sqlite/item_customer.dart'; //pendukung program asinkron
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
-class Home extends StatefulWidget {
+class HomeCustomer extends StatefulWidget {
   @override
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<HomeCustomer> {
   DbHelper dbHelper = DbHelper(); //panggil class dbhelper
   int count = 0;
   List<ItemCustomer> itemList;
@@ -76,7 +76,7 @@ void initState(){
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.red,
-              child: Icon(Icons.ad_units),
+              child: Icon(Icons.contacts)
             ),
             title: Text(
               this.itemList[index].name,
@@ -86,8 +86,7 @@ void initState(){
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Alamat: ' + this.itemList[index].alamat),
-                Text('Kode: ' + this.itemList[index].kode),
-                Text('Jumlah: ' + this.itemList[index].jmlh.toString()),
+                Text('Kode Pesanan: ' + this.itemList[index].kode),
               ],
             ),
             trailing: GestureDetector(

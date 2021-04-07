@@ -5,12 +5,12 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'entry_form.dart';
 
-class Home extends StatefulWidget {
+class HomeItem extends StatefulWidget {
   @override
   HomeState createState() => HomeState();
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<HomeItem> {
   DbHelper dbHelper = DbHelper(); //panggil class dbhelper
   int count = 0;
   List<Item> itemList;
@@ -76,7 +76,7 @@ void initState(){
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: Colors.red,
-              child: Icon(Icons.ad_units),
+              child: Icon(Icons.assignment_turned_in_rounded),
             ),
             title: Text(
               this.itemList[index].name,
