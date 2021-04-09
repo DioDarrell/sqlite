@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sqlite/dbhelper.dart';
+import 'package:sqlite/item.dart';
 import 'package:sqlite/item_customer.dart';
 
 class EntryForm extends StatefulWidget {
@@ -10,19 +12,27 @@ class EntryForm extends StatefulWidget {
 
 //class controller
 class EntryFormState extends State<EntryForm> {
+  void initState() {
+    updateListView();
+  }
+  List<Item> itemList = [];
+
   ItemCustomer item;
+  Item kaos;
+  
   EntryFormState(this.item);
   TextEditingController nameController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController jumlahController = TextEditingController();
   TextEditingController kodeController = TextEditingController();
+  DbHelper dbHelper = DbHelper();
 
   @override
   Widget build(BuildContext context) {
 //kondisi
     if (item != null) {
       nameController.text = item.name;
-      kodeController.text = item.kode.toString();
+      kodeController.text = item.kode;
       alamatController.text = item.alamat;
       jumlahController.text = item.jmlh.toString();
     }
@@ -56,20 +66,43 @@ class EntryFormState extends State<EntryForm> {
 //kode
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
-                child: TextField(
-                  controller: kodeController,
-                  keyboardType: TextInputType.text,
+                child: DropdownButtonFormField(
+                  items: itemList.map<DropdownMenuItem<Item>>((Item value) {
+                    return new DropdownMenuItem<Item>(
+                      value: value,
+                      child: new Text(value.kode),
+                    );
+                  }).toList(),
+                  onChanged: (Item value) {
+                    setState(() {
+                      kodeController.text = value.kode;
+                      this.kaos = value;
+                    });
+                  },
                   decoration: InputDecoration(
-                    labelText: 'Kode Kaos Pesanan',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5.0),
                     ),
                   ),
-                  onChanged: (value) {
-//
-                  },
                 ),
               ),
+//
+              // Padding(
+              //   padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+              //   child: TextField(
+              //     controller: kodeController,
+              //     keyboardType: TextInputType.text,
+              //     decoration: InputDecoration(
+              //       labelText: 'Kode Kaos Pesanan',
+              //       border: OutlineInputBorder(
+              //         borderRadius: BorderRadius.circular(5.0),
+              //       ),
+              //     ),
+              //     onChanged: (value) {
+//
+              //     },
+              //   ),
+              // ),
 // alamat
               Padding(
                 padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -162,5 +195,14 @@ class EntryFormState extends State<EntryForm> {
             ],
           ),
         ));
+  }
+  void updateListView() {
+// select data Seminar
+    Future<List<Item>> itemListFuture = dbHelper.getItemList();
+    itemListFuture.then((itemList) {
+      setState(() {
+        this.itemList = itemList;
+      });
+    });
   }
 }
