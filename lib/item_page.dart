@@ -28,7 +28,7 @@ void initState(){
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Daftar Item'),
+        title: Text('Daftar Desain'),
       ),
       body: Column(children: [
         Expanded(
